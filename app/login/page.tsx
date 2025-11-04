@@ -68,7 +68,7 @@ const Snowfall: React.FC = () => {
 // --- Main App ---
 function LoginContent() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, teamCreated } = useAuth();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -84,12 +84,26 @@ function LoginContent() {
       return;
     }
     const res = await login(username, password);
+    try {
+      sessionStorage.setItem('id', res.id);
+    } catch (err) {
+      console.error('Failed to save session storage', err);
+    }
     console.log('Login response received:', res);
     if (res.id) {
-      router.push('/main');
+      console.log(res.id)
+      const checkIfTeamExists = await teamCreated(res.id)
+      console.log(checkIfTeamExists)
+      if (checkIfTeamExists) {
+        router.push('/main')
+      } else {
+        router.push('/createTeam')
+      }
+  
     } else {
       setError('Falscher Anmeldename oder Passwort.');
     }
+
   };
 
   return (

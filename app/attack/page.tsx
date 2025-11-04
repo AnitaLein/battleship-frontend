@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 import { Snowflake } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Camera from '../../components/camera';
-import { useAuth } from '@/hooks/useAuth';
 
 function CreateTeam() {
   const router = useRouter();
-  const {createTeam } = useAuth();
   const [teamName, setTeamName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; type: string }>({
@@ -22,18 +20,9 @@ function CreateTeam() {
       setError('Teamname darf nicht leer sein.');
       return;
     }
-    const userId = sessionStorage.getItem('id');
-    console.log(userId)
-    if (!userId) {
-      setError('Benutzer-ID fehlt.');
-      return;
-    }
-    const res = await createTeam(teamName, userId)
-    if(!res){
-      router.push('/main')
-    }
 
-    //router.push('/main');
+    console.log('Creating team:', { teamName, photo });
+    router.push('/main');
   };
 
   return (
@@ -44,20 +33,6 @@ function CreateTeam() {
         </div>
         <h2 className="text-2xl font-bold text-white text-center mb-4">A-ho-ho-hoy!</h2>
 
-        {/* Camera Component */}
-        <Camera onPhotoTaken={(dataUrl) => setPhoto(dataUrl)} />
-
-        {message.text && (
-          <div
-            className={`mb-6 p-4 rounded-lg text-center ${
-              message.type === 'success'
-                ? 'bg-green-600/30 text-green-200'
-                : 'bg-red-600/30 text-red-200'
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
 
         <form onSubmit={handleCreateTeam}>
           <input

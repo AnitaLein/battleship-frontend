@@ -1,87 +1,75 @@
 'use client';
 import React, { useState } from 'react';
 import { Gift, Lock, LogIn, Loader2, Snowflake } from 'lucide-react'; // Using Gift for email now!
+import { useAttacks } from '../../hooks/useAttacks';
 
-interface InputFieldProps {
-  Icon: React.ComponentType<any>;
-  type: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  disabled?: boolean;
-}
-
-// Declare InputField outside of App to avoid creating components during render
-const InputField: React.FC<InputFieldProps> = ({ Icon, type, value, onChange, placeholder, disabled = false }) => (
-  <div className="relative mb-6">
-    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <Icon className="w-5 h-5 text-red-400" /> {/* Christmas red for icons */}
-    </div>
-    <input
-      type={type}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      disabled={disabled}
-      className="w-full pl-12 pr-4 py-3 bg-white/10 border border-red-300 text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-white/70 disabled:opacity-75 disabled:cursor-not-allowed shadow-inner"
-    />
-  </div>
-);
 
 // Main App Component
 const App: React.FC = () => {
-  const MOCK_EMAIL = 'santa@northpole.com';
-  const MOCK_PASSWORD = 'hohoho';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{ text: string; type: string }>({ text: '', type: '' }); // type: 'success' | 'error'
-  
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setMessage({ text: 'Please fill in both naughty list (email) and nice list (password).', type: 'error' });
-      return;
-    }
-    setIsLoading(true);
-    setMessage({ text: '', type: '' });
 
-    // Simulate an API call delay
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email === MOCK_EMAIL && password === MOCK_PASSWORD) {
-        setMessage({
-          text: 'Login successful! Merry Christmas from the North Pole!',
-          type: 'success',
-        });
-        // Clear inputs on success
-        setEmail('');
-        setPassword('');
-      } else {
-        setMessage({
-          text: 'Invalid festive credentials. Try ' + MOCK_EMAIL + ' / ' + MOCK_PASSWORD,
-          type: 'error',
-        });
-      }
-    }, 2000); // 2-second delay
-  };
+  const [message, setMessage] = useState<{ text: string; type: string }>({ text: '', type: '' }); // type: 'success' | 'error'
+  const attacks = useAttacks();
+React.useEffect(() => {
+    const selector = 'button.bg-red-600[type="submit"]';
+    const btn = document.querySelector(selector) as HTMLButtonElement | null;
+    if (!btn) return;
+
+    const handleClick = (e: MouseEvent) => {
+        e.preventDefault();
+        // redirect to the desired route
+        window.location.href = '/attack';
+    };
+
+    btn.addEventListener('click', handleClick);
+    return () => btn.removeEventListener('click', handleClick);
+}, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-900 via-purple-900 to-pink-900 p-6">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-white/20">
-        <div className="flex justify-center mb-6">
-          <Snowflake className="w-12 h-12 text-white animate-spin-slow" />
+              <h2 className="text-2xl font-bold text-white text-center mb-8">Vergangene Angriffe</h2>
+        <div className="mb-6">
+          {attacks && attacks.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white/5 rounded-lg divide-y divide-white/10">
+            <thead>
+              <tr className="text-left text-sm text-white/80">
+                <th className="px-4 py-3">Angreifer</th>
+                <th className="px-4 py-3">Verteidiger</th>
+                <th className="px-4 py-3">Position</th>
+                <th className="px-4 py-3">Treffer</th>
+                <th className="px-4 py-3">Datum</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm divide-y divide-white/6">
+              {attacks.map((att: any, idx: number) => (
+                <tr key={att?.id ?? idx} className="hover:bg-white/5">
+                  <td className="px-4 py-3 text-white/90">{att?.id ?? '-'}</td>
+                  <td className="px-4 py-3 text-white/90">{att?.attacker ?? att?.from ?? '-'}</td>
+                  <td className="px-4 py-3 text-white/90">{att?.target ?? att?.to ?? '-'}</td>
+                  <td className="px-4 py-3 text-white/90">{att?.result ?? att?.outcome ?? '-'}</td>
+                  <td className="px-4 py-3 text-white/90">
+                {att?.createdAt ? new Date(att.createdAt).toLocaleString() : '-'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <Snowflake className="w-12 h-12 text-white animate-spin-slow mb-3" />
+              <p className="text-sm text-white/80">Keine Angriffe vorhanden</p>
+            </div>
+          )}
         </div>
-        <h2 className="text-2xl font-bold text-white text-center mb-8">North Pole Login</h2>
-        {message.text && (
-          <div
-            className={`mb-6 p-4 rounded-lg text-center ${
-              message.type === 'success' ? 'bg-green-600/30 text-green-200' : 'bg-red-600/30 text-red-200'
-            }`}
+        <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-red-600 text-white rounded-xl hover:bg-red-500 transition duration-200"
           >
-            {message.text}
-          </div>
-        )}
+            Angriff starten
+          </button>
+        
       </div>
     </div>
   );
