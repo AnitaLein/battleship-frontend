@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Snowflake } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Camera from '../../components/camera';
@@ -15,6 +15,13 @@ function CreateTeam() {
     type: '',
   });
   const [photo, setPhoto] = useState<string | null>(null);
+
+    useEffect(() => {
+      const userId = sessionStorage.getItem('id');
+      if (!userId) {
+        router.replace('/login'); // or router.push('/login')
+      }
+    }, [router]);
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
