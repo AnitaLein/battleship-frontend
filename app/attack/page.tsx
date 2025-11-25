@@ -6,28 +6,35 @@ import { useRouter } from 'next/navigation';
 import { usePlayers } from '@/hooks/usePlayers';
 import { EnemyCard } from '@/components/enemyCard';
 import { useAttacks } from '@/hooks/useAttacks';
+import { ArrowLeft } from 'lucide-react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import CoordinateSelector from '@/components/positionDropDown';
+import { useImages } from '@/hooks/useImages';
+import { Snowfall } from '@/components/snowfall';
+
 
 function CreateTeam() {
   const router = useRouter();
   const { getAllEnemies } = usePlayers();
   const { postAttack } = useAttacks();
+  const { loadEnemyProfilePicture } = useImages();
 
   const [selectedEnemy, setSelectedEnemy] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [enemies, setEnemies] = useState<string[]>([]);
+  type EnemyWithPic = { enemy: string; enemyProfilePic: { url?: string } | null };
+  const [enemies, setEnemies] = useState<EnemyWithPic[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [targetField, setTargetField] = useState('');
 
-  useEffect(() => {
+  useEffect(() => { setTimeout(() => {
     const userId = sessionStorage.getItem('id');
     if (!userId) {
       router.replace('/login'); // or router.push('/login')
     }
-  }, [router]);
+  }, 1000); }, [router]);
   // ✅ Load enemies once
   useEffect(() => {
     if (loaded) return;
-    setLoaded(true);
 
     const loadEnemies = async () => {
       try {
@@ -36,18 +43,24 @@ function CreateTeam() {
           setError('Benutzer-ID fehlt.');
           return;
         }
-
         const data = await getAllEnemies(userId);
-        if (Array.isArray(data)) {
-          setEnemies(data);
-        } else if (data?.enemies) {
-          setEnemies(data.enemies);
-        } else {
-          setEnemies([]);
-        }
+        const enemyData = await Promise.all(
+          data.map(async enemy => {
+            const enemyProfilePic = await loadEnemyProfilePicture(userId, enemy);
+            if (enemyProfilePic && enemyProfilePic.url) {
+              return { enemy, enemyProfilePic };
+            } else {
+              return { enemy, enemyProfilePic: null };
+            }
+          })
+        );
+        setEnemies(Array.isArray(enemyData) ? enemyData : []);
       } catch (err) {
         console.error(err);
-        setError('Fehler beim Laden der Gegner.');
+        setError('Fehler beim Angriff.');
+      } finally {
+        // mark as loaded after the async work completes to avoid synchronous setState in effect
+        setLoaded(true);
       }
     };
 
@@ -65,7 +78,7 @@ function CreateTeam() {
     }
 
     if (!targetField.trim()) {
-      setError('Bitte gib ein Zielfeld ein (z.B. A1, C5).');
+      setError('Bitte gib ein Zielfeld ein');
       return;
     }
 
@@ -77,9 +90,11 @@ function CreateTeam() {
       }
 
       const res = await postAttack(userId, selectedEnemy, targetField);
-      console.log('Attack result:', res);
-
-      router.push('/main'); // redirect after attack
+      if(!res.success){
+        setError(res.message);
+        return;
+      }
+      router.push(`/attackResponse?hit=${res.isHit}&field=${targetField}&target=${selectedEnemy}&sunk=${res.isSunk}&attackId=${res.id}`);
     } catch (err) {
       console.error(err);
       setError('Fehler beim Angriff.');
@@ -88,8 +103,18 @@ function CreateTeam() {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 via-purple-900 to-pink-900 p-6 overflow-hidden">
-      <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-white/20">
+      <Snowfall />
+      <div className="relative z-10 w-full max-w-2xl bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-white/20">
         <div className="flex justify-center mb-6">
+          <div className='absolute top-5 left-5'>
+          <button
+              type="button"
+              onClick={() => router.push('/main')}
+              className="w-10 py-2 mt-3 bg-white/20 text-white rounded-xl hover:bg-white/30 transition duration-200 flex items-center justify-center gap-2"
+            >
+              <ArrowLeft className="w-5 h-5" />
+          </button>    
+          </div>
           <Snowflake className="w-12 h-12 text-white animate-spin-slow" />
         </div>
         <h2 className="text-2xl font-bold text-white text-center mb-4">
@@ -100,35 +125,32 @@ function CreateTeam() {
           Wähle deinen Gegner:
         </h3>
 
-        {/* Enemies list */}
         <div className="flex flex-wrap justify-center gap-3 mb-6">
-          {enemies.length > 0 ? (
-            enemies.map((enemy) => (
-              <EnemyCard
-                key={enemy}
-                name={enemy}
-                selected={selectedEnemy === enemy}
-                onClick={() => setSelectedEnemy(enemy)}
-              />
-            ))
+        {enemies.length > 0 ? (
+          enemies.map((enemyObj) => (
+            enemyObj.enemyProfilePic ? (
+            <EnemyCard
+              key={enemyObj.enemy}
+              name={enemyObj.enemy}
+              selected={selectedEnemy === enemyObj.enemy}
+              onClick={() => setSelectedEnemy(enemyObj.enemy)}
+              imageSrc={enemyObj.enemyProfilePic}
+            />
           ) : (
-            <p className="text-white text-center w-full">
-              Keine Gegner gefunden...
-            </p>
-          )}
+            <div key={enemyObj.enemy} className="w-20 h-20 rounded-full border-2 border-white/50 bg-white/10 flex items-center justify-center">
+              <Snowflake className="w-10 h-10 text-white/50 animate-spin-slow" />
+            </div>
+          )
+        ))) : (
+          <p className="text-white text-center w-full">
+            Keine Gegner gefunden...
+          </p>
+        )}
+
         </div>
 
-        <form onSubmit={handleAttackTeam}>
-          <input
-            type="text"
-            placeholder="Welches Feld greift ihr an?"
-            value={targetField}
-            onChange={(e) => setTargetField(e.target.value)}
-            className="w-full p-3 mb-4 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
-          />
-          <p className="text-white text-center w-full">
-            Beispiel Schreibweise: A1, C5,...
-          </p>
+        <form className="flex flex-wrap justify-center gap-3 mb-6" onSubmit={handleAttackTeam}>
+          <CoordinateSelector setTargetField={setTargetField} />
           <button
             type="submit"
             className="w-full py-3 mt-4 bg-red-600 text-white rounded-xl hover:bg-red-500 transition duration-200"

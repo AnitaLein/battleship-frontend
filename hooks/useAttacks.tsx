@@ -23,10 +23,28 @@ export function useAttacks() {
         throw new Error(`Server error: ${res.status}`);
       }
 
-      return await res.json();
+      return await res.json().then(data => {
+        if(data.success){
+         return {
+          success: data.success,
+          targetName: data.targetName,
+          targetField: data.targetField,
+          id: data.id,
+          isHit: data.isHit,
+          isSunk: data.isSunk,
+        };
+        } else {
+          console.log('Attack failed:', data.message);
+          return {
+            success: data.success,
+            message: data.message
+          };
+        };
+
+      });
     } catch (err) {
-      console.error('Attack failed:', err);
-      throw err;
+      console.error('Error posting attack:', err);
+      return err
     }
   };
 
@@ -36,7 +54,6 @@ export function useAttacks() {
       const res = await fetch(`${baseUrl}/attacks`, {
         method: 'GET',
         headers: {
-          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'UserId': userId,
         },
@@ -45,7 +62,6 @@ export function useAttacks() {
     .catch(err => {
       console.error(err);
     });
-    console.log(res)
     return res;
   };
   return { postAttack, getAllAttacks };
