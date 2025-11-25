@@ -6,7 +6,6 @@ export function usePlayers(){
         const res = await fetch (`${baseUrl}/enemies`, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'UserId': userId
         },
@@ -15,8 +14,23 @@ export function usePlayers(){
     .catch(err => {
       console.error(err);
     });
-    console.log(res)
     return res;
   };
-  return {getAllEnemies}
+
+  const loadOwnPlayer = async (userId: string) => {
+    const res = await fetch (`${baseUrl}/ownPlayer`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'UserId': userId
+    },
+})
+.then(res => res.json())
+.catch(err => {
+  console.error(err);
+});
+return res.name;
+}
+
+  return {getAllEnemies, loadOwnPlayer};
 }
