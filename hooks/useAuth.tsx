@@ -2,11 +2,9 @@ import { useSessionStore } from "../components/SessionStore";
 
 export function useAuth() {
   const { setSession} = useSessionStore();
-    console.log('useAuth initialized');
   const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const login = async (username: string, password: string) => {
-    console.log('Login attempt:', { username, password });
 
     const loginRes = await fetch(`${baseUrl}/login`, {
         method: 'POST',
@@ -17,13 +15,14 @@ export function useAuth() {
     })
     .then(res => res.json())
     .then(data => {
-      setSession(data.id);
+      setSession(data);
       return data;
     })
     .catch(err => {
       console.error(err);
       return { error: 'Login failed', details: err };
     });
+    
     return loginRes;
   };
 
@@ -47,7 +46,6 @@ export function useAuth() {
   };
 
   const createTeam = async (name: string, userId: string) => {
-    console.log(name, userId)
     const res = await fetch (`${baseUrl}/update/name`, {
       method: 'PUT',
       headers: {
@@ -57,7 +55,7 @@ export function useAuth() {
       body: JSON.stringify({ name})
       }).then(res => res)
     .then(data => {
-      console.log(data);
+      return data.ok
     })
     .catch(err => {
       console.error(err);
