@@ -9,7 +9,13 @@ import { Snowfall } from '@/components/snowfall';
 
 export default function AttackResultPage() {
   const router = useRouter();
-  const params = useSearchParams();
+  const [params, setParams] = useState<URLSearchParams | null>(null);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setParams(searchParams);
+  }, []);
+  if (!params) return <div>Lädt...</div>;
 
   const hit = params.get('hit') === 'true';
   const field = params.get('field');

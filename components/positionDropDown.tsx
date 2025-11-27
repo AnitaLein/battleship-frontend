@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function CoordinateSelector(
-    { setTargetField }
+    { setTargetField }: any
 ) {
   const letters = ["A", "B", "C", "D", "E", "F"];
   const numbers = [1, 2, 3, 4, 5, 6];

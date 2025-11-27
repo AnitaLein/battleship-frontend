@@ -20,7 +20,7 @@ export function EnemyCard({
 >
   {imageSrc ? (
     <img
-      src={imageSrc.url}
+      src={imageSrc as string}
       alt={name}
 
       className="w-30 h-30 rounded-full border-2 border-white/50 object-cover"

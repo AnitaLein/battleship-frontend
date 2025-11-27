@@ -21,7 +21,7 @@ function CreateTeam() {
 
   const [selectedEnemy, setSelectedEnemy] = useState('');
   const [error, setError] = useState<string | null>(null);
-  type EnemyWithPic = { enemy: string; enemyProfilePic: { url?: string } | null };
+  type EnemyWithPic = { enemy: string; enemyProfilePic: { url: string } | null };
   const [enemies, setEnemies] = useState<EnemyWithPic[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [targetField, setTargetField] = useState('');
@@ -89,8 +89,8 @@ function CreateTeam() {
         return;
       }
 
-      const res = await postAttack(userId, selectedEnemy, targetField);
-      if(!res.success){
+      const res: any = await postAttack(userId, selectedEnemy, targetField);
+      if (!res.success) {
         setError(res.message);
         return;
       }
@@ -134,7 +134,7 @@ function CreateTeam() {
               name={enemyObj.enemy}
               selected={selectedEnemy === enemyObj.enemy}
               onClick={() => setSelectedEnemy(enemyObj.enemy)}
-              imageSrc={enemyObj.enemyProfilePic}
+              imageSrc={enemyObj.enemyProfilePic.url}
             />
           ) : (
             <div key={enemyObj.enemy} className="w-20 h-20 rounded-full border-2 border-white/50 bg-white/10 flex items-center justify-center">
