@@ -10,7 +10,7 @@ runConfig:
 # Environment variables and secrets.
 env:
 - variable: NEXT_PUBLIC_BACKEND_URL
-  value: https://battleship-api-831706007455.europe-west4.run.app/battleship
+  value:     battleship-api.vercel.app/battleship
   # Configure environment variables.
   # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
   # - variable: MESSAGE
