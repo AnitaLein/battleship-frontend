@@ -45,7 +45,7 @@ function CreateTeam() {
         }
         const data = await getAllEnemies(userId);
         const enemyData = await Promise.all(
-          data.map(async enemy => {
+          data.map(async (enemy: any) => {
             const enemyProfilePic = await loadEnemyProfilePicture(userId, enemy);
             if (enemyProfilePic && enemyProfilePic.url) {
               return { enemy, enemyProfilePic };
