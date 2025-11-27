@@ -6,7 +6,7 @@ export function useAuth() {
 
   const login = async (username: string, password: string) => {
 
-    const loginRes = await fetch(`${baseUrl}/login`, {
+    const loginRes = await fetch(`https://battleship-api.vercel.app/battleship/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
