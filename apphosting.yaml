@@ -10,7 +10,7 @@ runConfig:
 # Environment variables and secrets.
 env:
 - variable: NEXT_PUBLIC_BACKEND_URL
-  value: battleship-frontend--battleship-api-c3847.europe-west4.hosted.app
+  value: https://helloworld-i325s4dzpa-uc.a.run.app
   # Configure environment variables.
   # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
   # - variable: MESSAGE
