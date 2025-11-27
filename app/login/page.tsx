@@ -32,6 +32,7 @@ function LoginContent() {
       return;
     }
     const res = await login(username, password);
+    console.log('Login response:', res);
     try {
       sessionStorage.setItem('id', res);
     } catch (err) {

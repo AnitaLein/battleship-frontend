@@ -15,6 +15,7 @@ export function useAuth() {
     })
     .then(res => res.json())
     .then(data => {
+      console.log('Login data:', data);
       setSession(data);
       return data;
     })
