@@ -48,7 +48,7 @@ const AttackHistory: React.FC = () => {
     const btn = document.querySelector('button.bg-red-600[type="submit"]');
     if (!btn) return;
 
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: Event) => {
       e.preventDefault();
       router.push('/attack');
     };
