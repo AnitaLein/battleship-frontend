@@ -11,7 +11,6 @@ export function useAuth() {
     const loginRes = await fetch(`${baseUrl}/login`, {
         method: 'POST',
         headers: {
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ username, password })
@@ -32,7 +31,6 @@ export function useAuth() {
     const res = await fetch (`${baseUrl}/team-created`, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'UserId': userId
         },
@@ -53,7 +51,6 @@ export function useAuth() {
     const res = await fetch (`${baseUrl}/update/name`, {
       method: 'PUT',
       headers: {
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'userId': userId
         },
