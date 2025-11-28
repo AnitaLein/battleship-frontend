@@ -161,7 +161,7 @@ function CreateTeam() {
 
           {imgSrc && (
             <div className="flex flex-col items-center mt-4">
-              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full" />
+              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full transform scale-x-[-1]" />
 
               <button
                 onClick={removePicture}
