@@ -83,23 +83,18 @@ function CreateTeam() {
     }
 
     try {
-      console.log('Checking sessionStorage...');
       const userId = sessionStorage.getItem('id');
-      console.log('userId:', userId);
       if (!userId) {
         setError('Benutzer-ID fehlt.');
         return;
       }
-    
-      console.log('Calling postAttack...');
+
       const res: any = await postAttack(userId, selectedEnemy, targetField);
-      console.log('postAttack result:', res);
       if(!res.success){
         setError(res.message);
         return;
       }
-    
-      console.log('Navigating...');
+
       router.push(`/attackResponse?hit=${res.isHit}&field=${targetField}&target=${selectedEnemy}&sunk=${res.isSunk}&attackId=${res.id}`);
     } catch (err) {
       console.error('Caught error:', err);
