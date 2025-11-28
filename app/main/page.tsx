@@ -105,7 +105,7 @@ useEffect(() => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-900 via-purple-900 to-pink-900 p-6">
       <Snowfall />
-      <div className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-white/20">
+      <div className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-white/20">
         <h2 className="text-2xl font-bold text-white text-center mb-4">
           A-ho-ho-hoy {profileName ?? ''} !
         </h2>

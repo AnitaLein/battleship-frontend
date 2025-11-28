@@ -28,7 +28,7 @@ export function useAttacks() {
          return {
           success: data.success,
           targetName: data.targetName,
-          targetField: data.targetField,
+          targetField: data.targetPos,
           id: data.id,
           isHit: data.isHit,
           isSunk: data.isSunk,
