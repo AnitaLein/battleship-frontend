@@ -141,39 +141,48 @@ useEffect(() => {
           </div>
         ) : (
           <div className="w-full max-h-80 overflow-y-auto overflow-x-hidden">
-            <table className="w-full table-auto bg-white/5 rounded-lg divide-y divide-white/10">
-              <thead>
-                <tr className="text-left text-sm text-white/80">
-                  <th className="px-2 py-3">Angreifer</th>
-                  <th className="px-2 py-3">Verteidiger</th>
-                  <th className="px-2 py-3">Position</th>
-                  <th className="px-2 py-3">Treffer</th>
-                  <th className="px-2 py-3">Tag</th>
-                  <th className="px-2 py-3">Versenkt</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm divide-y divide-white/6">
-                {attacks.map((att, idx) => (
-                  <tr key={idx} className="hover:bg-white/5">
-                    <td className="px-2 py-3 text-white/90">{att.attackPic && att.attackPic.url ? (
-                      <img
-                        src={att.attackPic.url}
-                        alt="Angriffsbild"
-                        className="w-15 h-15 rounded-full border-2 border-white/50 object-cover"
-                        onClick={() => setModalImg(att.attackPic.url)}
-                      />
-                    ) : att.userName ?? '-'}</td>
-                    <td className="px-2 py-3 text-white/90">{att.targetName ?? '-'}</td>
-                    <td className="px-2 py-3 text-white/90">{att.targetPos ?? '-'}</td>
-                    <td className="px-2 py-3 text-white/90">{att.isHit === null ? '-' : att.isHit ? '✅' : '❌'}</td>
-                    <td className="px-2 py-3 text-white/90">{att.date ?? '-'}</td>
-                    <td className="px-2 py-3 text-white/90">{att.isSunk === null ? '-' : att.isSunk ? '✅' : '❌ '}</td>
-                  </tr>
-                ))}
-                
-              </tbody>
+  <table className="w-full table-auto bg-white/5 rounded-md divide-y divide-white/10">
+    <thead>
+      <tr className="text-left text-xs text-white/70">
+        <th className="px-1 py-2">Angreifer</th>
+        <th className="px-1 py-2">Verteidiger</th>
+        <th className="px-1 py-2">Feld</th>
+        <th className="px-1 py-2">Treffer</th>
+        <th className="px-1 py-2">Tag</th>
+        <th className="px-1 py-2">Versenkt</th>
+      </tr>
+    </thead>
 
-            </table>
+    <tbody className="text-xs divide-y divide-white/5">
+      {attacks.map((att, idx) => (
+        <tr key={idx} className="hover:bg-white/5">
+          <td className="px-1 py-2 text-white/90">
+            {att.attackPic?.url ? (
+              <img
+                src={att.attackPic.url}
+                alt="Angriffsbild"
+                className="w-8 h-8 rounded-full border border-white/40 object-cover cursor-pointer"
+                onClick={() => setModalImg(att.attackPic.url)}
+              />
+            ) : (
+              att.userName ?? '-'
+            )}
+          </td>
+          <td className="px-1 py-2 text-white/90">{att.targetName ?? '-'}</td>
+          <td className="px-1 py-2 text-white/90">{att.targetPos ?? '-'}</td>
+          <td className="px-1 py-2 text-white/90">
+            {att.isHit === null ? '-' : att.isHit ? '✅' : '❌'}
+          </td>
+          <td className="px-1 py-2 text-white/90">{att.date ?? '-'}</td>
+          <td className="px-1 py-2 text-white/90">
+            {att.isSunk === null ? '-' : att.isSunk ? '✅' : '❌'}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+
             
           </div>
         )}
