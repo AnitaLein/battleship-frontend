@@ -83,23 +83,29 @@ function CreateTeam() {
     }
 
     try {
+      console.log('Checking sessionStorage...');
       const userId = sessionStorage.getItem('id');
+      console.log('userId:', userId);
       if (!userId) {
         setError('Benutzer-ID fehlt.');
         return;
       }
-
+    
+      console.log('Calling postAttack...');
       const res: any = await postAttack(userId, selectedEnemy, targetField);
-      if (!res.success) {
+      console.log('postAttack result:', res);
+      if(!res.success){
         setError(res.message);
         return;
       }
+    
+      console.log('Navigating...');
       router.push(`/attackResponse?hit=${res.isHit}&field=${targetField}&target=${selectedEnemy}&sunk=${res.isSunk}&attackId=${res.id}`);
     } catch (err) {
-      console.error(err);
+      console.error('Caught error:', err);
       setError('Fehler beim Angriff.');
     }
-  };
+  };    
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 via-purple-900 to-pink-900 p-6 overflow-hidden">
