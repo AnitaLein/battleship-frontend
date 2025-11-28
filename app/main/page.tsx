@@ -161,7 +161,7 @@ useEffect(() => {
               <img
                 src={att.attackPic.url}
                 alt="Angriffsbild"
-                className="w-8 h-8 rounded-full border border-white/40 object-cover cursor-pointer"
+                className="w-15 h-15 rounded-full border-2 border-white/50 object-cover cursor-pointer"
                 onClick={() => setModalImg(att.attackPic.url)}
               />
             ) : (
@@ -175,16 +175,14 @@ useEffect(() => {
           </td>
           <td className="px-1 py-2 text-white/90">{att.date ?? '-'}</td>
           <td className="px-1 py-2 text-white/90">
-            {att.isSunk === null ? '-' : att.isSunk ? '✅' : '❌'}
+            {att.isSunk === null ? '-' : att.isSunk ? '⚓' : '❌'}
           </td>
         </tr>
       ))}
     </tbody>
   </table>
+</div>
 
-
-            
-          </div>
         )}
 
         <button
