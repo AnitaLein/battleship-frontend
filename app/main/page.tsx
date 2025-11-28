@@ -115,7 +115,7 @@ useEffect(() => {
             <img
               src={profilePic}
               alt="Profilbild"
-              className="w-50 h-50 rounded-full border-2 border-white/50 object-cover"
+              className="w-30 h-30 rounded-full border-2 border-white/50 object-cover"
             />
           ) : (
             <div className="w-20 h-20 rounded-full border-2 border-white/50 bg-white/10 flex items-center justify-center">
