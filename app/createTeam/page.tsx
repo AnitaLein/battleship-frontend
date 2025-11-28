@@ -136,7 +136,7 @@ function CreateTeam() {
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     videoConstraints={{ facingMode: 'user' }}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full transform scale-x-[-1]"
                   />
                 </div>
               )}
