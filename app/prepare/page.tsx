@@ -41,8 +41,7 @@ const FightPreparation: React.FC = () => {
   
         const enemyData = await Promise.all(
           enemiesRes.map(async (enemy: any) => {
-            console.log(enemy)
-            if (enemy.name) return
+            if (enemy.name == "") return null;
             const enemyProfilePic = await loadEnemyProfilePicture(userId, enemy);
             if (enemyProfilePic && enemyProfilePic.url) {
               return { enemy, enemyProfilePic };
@@ -52,7 +51,6 @@ const FightPreparation: React.FC = () => {
           })
         );
         setEnemies(Array.isArray(enemyData) ? enemyData : []);
-        console.log(enemies)
         setProfileName(profileNameRes);
       } catch (err) {
         console.error(err);
