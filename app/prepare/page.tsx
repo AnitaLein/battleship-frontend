@@ -42,6 +42,7 @@ const FightPreparation: React.FC = () => {
         const enemyData = await Promise.all(
           enemiesRes.map(async (enemy: any) => {
             const enemyProfilePic = await loadEnemyProfilePicture(userId, enemy);
+            if (enemy.name == "") return
             if (enemyProfilePic && enemyProfilePic.url) {
               return { enemy, enemyProfilePic };
             } else {
@@ -81,7 +82,7 @@ const FightPreparation: React.FC = () => {
 
       <div className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20">
         <h2 className="text-3xl font-bold text-white text-center mb-4">
-          Kampfvorbereitung, {profileName ?? ''}!
+          Der Kampf geht im Dezember los, {profileName ?? ''}!
         </h2>
 
         {/* Profile Picture */}
@@ -99,7 +100,7 @@ const FightPreparation: React.FC = () => {
           )}
         </div>
 
-        <h3 className="text-xl text-white font-semibold text-center mb-4">Feindliche Spieler</h3>
+        <h3 className="text-xl text-white font-semibold text-center mb-4">Deine Gegner:</h3>
 
         {/* Loading / Error */}
         <div className="flex flex-wrap justify-center gap-3 mb-6">
@@ -124,12 +125,6 @@ const FightPreparation: React.FC = () => {
 
         </div>
 
-        <button
-          className="w-full py-3 mt-6 bg-red-600 text-white rounded-xl hover:bg-red-500 transition duration-200"
-          onClick={() => router.push('/attack')}
-        >
-          Angriff starten
-        </button>
       </div>
     </div>
     </>
