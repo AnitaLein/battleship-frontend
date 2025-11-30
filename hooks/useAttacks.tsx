@@ -60,8 +60,9 @@ export function useAttacks() {
           'UserId': userId,
         },
       })
-    .then(res => {return res.json()})
-    .catch(err => {
+    const data = await res.json()
+    return data
+    .catch((err: any) => {
       throw new Error(err)
     });
    
