@@ -93,11 +93,7 @@ const FightPreparation: React.FC = () => {
               alt="Profilbild"
               className="w-32 h-32 rounded-full border-2 border-white/50 object-cover"
             />
-          ) : (
-            <div className="w-20 h-20 rounded-full border-2 border-white/50 bg-white/10 flex items-center justify-center">
-              <Snowflake className="w-10 h-10 text-white/50 animate-spin-slow" />
-            </div>
-          )}
+          ): <></>}
         </div>
 
         <h3 className="text-xl text-white font-semibold text-center mb-4">Deine Gegner:</h3>
