@@ -123,15 +123,26 @@ export default function AttackResultPage() {
             </div>
           )}
 
-          {/* PICTURE TAKEN */}
-          {imgSrc && (
-            <div className="flex flex-col items-center mt-4">
-              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full overflow-hidden transform scale-x-[-1]" />
-              <button onClick={removePicture} className="mt-3 bg-yellow-500 text-white py-2 px-4 rounded-lg">
-                Bild löschen / Neu aufnehmen
-              </button>
-            </div>
-          )}
+{/* PICTURE TAKEN */}
+{imgSrc && (
+  <div className="flex flex-col items-center mt-4">
+    
+    <div className="w-64 h-64 rounded-full overflow-hidden">
+      <img
+        src={imgSrc}
+        className="object-cover w-full h-full transform scale-x-[-1]"
+      />
+    </div>
+
+    <button
+      onClick={removePicture}
+      className="mt-3 bg-yellow-500 text-white py-2 px-4 rounded-lg"
+    >
+      Bild löschen / Neu aufnehmen
+    </button>
+  </div>
+)}
+
 
           {/* UPLOAD BUTTON */}
           <button
