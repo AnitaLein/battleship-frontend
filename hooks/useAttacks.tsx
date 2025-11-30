@@ -62,6 +62,7 @@ export function useAttacks() {
     .catch(err => {
       console.error(err);
     });
+    console.log('attack', res);
     if(!res.success){
       return [];
     } else {
