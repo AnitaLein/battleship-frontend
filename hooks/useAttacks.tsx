@@ -63,11 +63,7 @@ export function useAttacks() {
       console.error(err);
     });
     console.log('attack', res);
-    if(!res.success){
-      return [];
-    } else {
       return res;
-    }
    
   };
   return { postAttack, getAllAttacks };
