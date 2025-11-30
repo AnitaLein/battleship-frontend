@@ -48,39 +48,41 @@ export function useAttacks() {
     }
   };
 
-  const getAllAttacks = async (
-    userId: string,
-  ) => {
-    try{
-      const res = await fetch(`${baseUrl}/attacks`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'UserId': userId,
-        },
-      }).then( res => res.json())
-      console.log(res)
-    if (!res.ok){
-      throw new Error(`Server error: ${res.status}`);
+const getAllAttacks = async (userId: string) => {
+  try {
+    const response = await fetch(`${baseUrl}/attacks`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "UserId": userId,
+      },
+    });
+
+    // check response status BEFORE parsing JSON
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
     }
-    return await res.json().then((data:any) =>{
-    if(data.success){
+
+    // parse JSON ONCE
+    const data = await response.json();
+    console.log(data);
+
+    if (data.success) {
       return {
-        success: data.success,
-        data: data
+        success: true,
+        data,
       };
     } else {
       return {
-        success: data.success,
-        message: data.message
+        success: false,
+        message: data.message,
       };
-    }});
     }
-    catch(err) {
-      console.error(err);
-      return err;
-    };
-   
-  };
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: err };
+  }
+};
+
   return { postAttack, getAllAttacks };
 }
