@@ -16,8 +16,13 @@ export function useAuth() {
     .then(res => res.json())
     .then(data => {
       console.log('Login data:', data);
+      if (data.statusCode == 500){
+        return null
+      } else {
       setSession(data);
       return data;
+      }
+
     })
     .catch(err => {
       console.error(err);
