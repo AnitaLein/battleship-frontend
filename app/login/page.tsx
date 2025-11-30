@@ -40,16 +40,7 @@ function LoginContent() {
     try {
       if (res){
         sessionStorage.setItem('id', res);
-      } else {
-        setError('Falscher Anmeldename oder Passwort.')
-      }
-      
-    } catch (err) {
-      console.error('Failed to save session storage', err);
-    }
-
-    if (res) {
-      const checkIfTeamExists = await teamCreated(res);
+        const checkIfTeamExists = await teamCreated(res);
 
       if (checkIfTeamExists) {
         const today = new Date();
@@ -59,8 +50,13 @@ function LoginContent() {
       } else {
         router.push('/createTeam');
       }
-    } else {
-      setError('Falscher Anmeldename oder Passwort.');
+        
+      } else {
+        setError('Falscher Anmeldename oder Passwort.')
+      }
+      
+    } catch (err) {
+      console.error('Failed to save session storage', err);
     }
 
     setLoading(false);
