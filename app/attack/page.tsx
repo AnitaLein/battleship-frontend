@@ -11,6 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import CoordinateSelector from '@/components/positionDropDown';
 import { useImages } from '@/hooks/useImages';
 import { Snowfall } from '@/components/snowfall';
+import { Loader2} from 'lucide-react';
 
 
 function CreateTeam() {
@@ -23,6 +24,7 @@ function CreateTeam() {
   const [error, setError] = useState<string | null>(null);
   type EnemyWithPic = { enemy: string; enemyProfilePic: { url: string } | null };
   const [enemies, setEnemies] = useState<EnemyWithPic[]>([]);
+  const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [targetField, setTargetField] = useState('');
 
@@ -71,6 +73,7 @@ function CreateTeam() {
   const handleAttackTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     if (!selectedEnemy) {
       setError('Bitte wähle einen Gegner aus.');
@@ -94,11 +97,12 @@ function CreateTeam() {
         setError(res.message);
         return;
       }
-
+      setLoading(false);
       router.push(`/attackResponse?hit=${res.isHit}&field=${targetField}&target=${selectedEnemy}&sunk=${res.isSunk}&attackId=${res.id}`);
     } catch (err) {
       console.error('Caught error:', err);
       setError('Fehler beim Angriff.');
+      setLoading(false);
     }
   };    
 
@@ -156,7 +160,7 @@ function CreateTeam() {
             type="submit"
             className="w-full py-3 mt-4 bg-red-600 text-white rounded-xl hover:bg-red-500 transition duration-200"
           >
-            Angreifen!
+            {loading ? <Loader2 className="animate-spin w-5 h-5" /> : "Angreifen!"}
           </button>
           {error && <p className="mt-4 text-red-400 text-center">{error}</p>}
         </form>

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
-import { Snowflake } from 'lucide-react';
+import { Snowflake, Loader2 } from 'lucide-react';
 import { useImages } from '@/hooks/useImages';
 import { Snowfall } from '@/components/snowfall';
 
@@ -16,6 +16,7 @@ export default function AttackResultPage() {
   const [params, setParams] = useState<URLSearchParams | null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const webcamRef = useRef<Webcam | null>(null);
   const { storeAttackPicture } = useImages();
@@ -64,6 +65,7 @@ export default function AttackResultPage() {
   const closeCamera = () => setCameraOpen(false);
 
   const uploadAttackPicture = async (userId: string, attackId: string) => {
+    setLoading(true);
     if (!imgSrc) return;
     const base64 = imgSrc.split(',')[1];
     try {
@@ -71,6 +73,7 @@ export default function AttackResultPage() {
     } catch (err) {
       console.error(err);
     }
+    setLoading(false);
   };
 
   return (
@@ -123,8 +126,8 @@ export default function AttackResultPage() {
           {/* PICTURE TAKEN */}
           {imgSrc && (
             <div className="flex flex-col items-center mt-4">
-              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full" />
-              <button onClick={removePicture} className="mt-3 bg-yellow-500 text-white py-2 px-4 rounded-lg transform scale-x-[-1]">
+              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full transform scale-x-[-1]" />
+              <button onClick={removePicture} className="mt-3 bg-yellow-500 text-white py-2 px-4 rounded-lg">
                 Bild löschen / Neu aufnehmen
               </button>
             </div>
@@ -141,7 +144,7 @@ export default function AttackResultPage() {
             }}
             className="mt-3 bg-blue-500 text-white py-2 px-4 rounded-lg"
           >
-            Bild hochladen
+             {loading ? <Loader2 className="animate-spin w-5 h-5" /> : "Schickt eure Nachricht los!"}
           </button>
         </div>
       )}
