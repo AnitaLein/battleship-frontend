@@ -53,19 +53,26 @@ export function useAttacks() {
   const getAllAttacks = async (
     userId: string,
   ) => {
-      const res = await fetch(`${baseUrl}/attacks`, {
+    try {
+      const response = await fetch(`${baseUrl}/attacks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'UserId': userId,
         },
-      })
-    const data = await res.json()
-    return data
-    .catch((err: any) => {
-      throw new Error(err)
-    });
-   
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('response', data);
+      return data;
+    } catch (err) {
+      console.error('Error fetching attacks:', err);
+      throw err;
+    }
   };
   return { postAttack, getAllAttacks };
 }

@@ -43,6 +43,8 @@ const AttackHistory: React.FC = () => {
         }
         const data = await getAllAttacks(userId);
 
+        console.log('Frontend attack', data)
+
         const attacksWithPics = await Promise.all(data.map(async (attack : any) => {
         if (attack.isHit) {
             const attackPic = await loadAttackPicture(userId, attack.id);
