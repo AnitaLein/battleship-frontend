@@ -24,6 +24,7 @@ export function useAttacks() {
       }
 
       return await res.json().then(data => {
+        console.log('Direkt res', data)
         if(data.success){
          return {
           success: data.success,

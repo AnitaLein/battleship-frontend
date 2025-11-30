@@ -44,7 +44,7 @@ const AttackHistory: React.FC = () => {
         const data = await getAllAttacks(userId);
         console.log(data);
         if(!data.success){
-          setError('Keine vergangenen Angriffe');
+          console.error('Keine vergangenen Angriffe');
         } else {
           const resAttacks = Array.from(data.data);
           console.log(resAttacks)
