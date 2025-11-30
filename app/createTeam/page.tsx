@@ -120,7 +120,7 @@ function CreateTeam() {
         </div>
 
         <h2 className="text-2xl font-bold text-white text-center mb-4">
-          A-ho-ho-hoy!
+          A-ho-ho-hoi!
         </h2>
 
         <div className="my-4 flex flex-col items-center">
