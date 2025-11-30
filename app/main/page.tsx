@@ -46,14 +46,16 @@ const AttackHistory: React.FC = () => {
         if(!data.success){
           setError('Keine vergangenen Angriffe');
         } else {
-          const attacks = Array.from(data.data);
-          const attacksWithPics = await Promise.all(attacks.map(async (attack : any) => {
+          const resAttacks = Array.from(data.data);
+          console.log(resAttacks)
+          const attacksWithPics = await Promise.all(resAttacks.map(async (attack : any) => {
           if (attack.isHit) {
             const attackPic = await loadAttackPicture(userId, attack.id);
             return { ...attack, attackPic };
           } else return attack;
         }));
         setAttacks(Array.isArray(attacksWithPics) ? attacksWithPics : []);
+        console.log(attacks)
         }
       } catch (err) {
         console.error(err);
