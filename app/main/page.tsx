@@ -18,6 +18,7 @@ const AttackHistory: React.FC = () => {
   const [modalImg, setModalImg] = useState<string | null>(null);
   const { loadOwnPlayer } = usePlayers();
   const [profileName, setProfileName] = useState<string | null>(null);
+  const [attackLoader, setAttackLoader] = useState(false);
 
   
   const router = useRouter();
@@ -48,7 +49,6 @@ const AttackHistory: React.FC = () => {
           } else return attack;
         }));
         setAttacks(Array.isArray(attacksWithPics) ? attacksWithPics : []);
-        console.log(attacks)
       } catch (err) {
         console.error(err);
         setError('Fehler beim Laden der Angriffe.');

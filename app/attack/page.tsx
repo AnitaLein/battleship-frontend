@@ -24,7 +24,6 @@ function CreateTeam() {
   const [error, setError] = useState<string | null>(null);
   type EnemyWithPic = { enemy: string; enemyProfilePic: { url: string } | null };
   const [enemies, setEnemies] = useState<EnemyWithPic[]>([]);
-  const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [targetField, setTargetField] = useState('');
 
@@ -77,11 +76,13 @@ function CreateTeam() {
 
     if (!selectedEnemy) {
       setError('Bitte wähle einen Gegner aus.');
+      setLoading(false);
       return;
     }
 
     if (!targetField.trim()) {
       setError('Bitte gib ein Zielfeld ein');
+      setLoading(false);
       return;
     }
 
@@ -89,12 +90,14 @@ function CreateTeam() {
       const userId = sessionStorage.getItem('id');
       if (!userId) {
         setError('Benutzer-ID fehlt.');
+        setLoading(false);
         return;
       }
 
       const res: any = await postAttack(userId, selectedEnemy, targetField);
       if(!res.success){
         setError(res.message);
+        setLoading(false);
         return;
       }
       setLoading(false);

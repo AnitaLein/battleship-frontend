@@ -126,7 +126,7 @@ export default function AttackResultPage() {
           {/* PICTURE TAKEN */}
           {imgSrc && (
             <div className="flex flex-col items-center mt-4">
-              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full transform scale-x-[-1]" />
+              <img src={imgSrc} className="object-cover w-64 h-64 rounded-full overflow-hidden transform scale-x-[-1]" />
               <button onClick={removePicture} className="mt-3 bg-yellow-500 text-white py-2 px-4 rounded-lg">
                 Bild löschen / Neu aufnehmen
               </button>
