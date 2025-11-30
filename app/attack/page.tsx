@@ -24,6 +24,7 @@ function CreateTeam() {
   const [error, setError] = useState<string | null>(null);
   type EnemyWithPic = { enemy: string; enemyProfilePic: { url: string } | null };
   const [enemies, setEnemies] = useState<EnemyWithPic[]>([]);
+  const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [targetField, setTargetField] = useState('');
 

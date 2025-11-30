@@ -108,7 +108,7 @@ useEffect(() => {
       <Snowfall />
       <div className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-white/20">
         <h2 className="text-2xl font-bold text-white text-center mb-4">
-          A-ho-ho-hoy {profileName ?? ''} !
+          A-ho-ho-hoi {profileName ?? ''} !
         </h2>
         {/* Profile picture */}
         <div className="flex flex-col items-center mb-6">
