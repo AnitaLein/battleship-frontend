@@ -41,7 +41,14 @@ function LoginContent() {
     if (res) {
       const checkIfTeamExists = await teamCreated(res)
       if (checkIfTeamExists) {
-        router.push('/main')
+        const today = new Date()
+        const currentMonthNumber = today.getMonth() + 1; // 1-12
+   
+        if (currentMonthNumber != 12) {
+          router.push('prepare');
+        } else {
+          router.push('/main')
+        }
       } else {
         router.push('/createTeam')
       }

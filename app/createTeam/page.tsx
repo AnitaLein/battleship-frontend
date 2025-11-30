@@ -99,9 +99,16 @@ function CreateTeam() {
       return;
     }
 
+   const today = new Date()
+   const currentMonthNumber = today.getMonth() + 1; // 1-12
    
+   if (currentMonthNumber != 12) {
+    router.push('prepare');
+   } else {
+     router.push('/main');
+   }
 
-    router.push('/main');
+
   };
 
   return (
