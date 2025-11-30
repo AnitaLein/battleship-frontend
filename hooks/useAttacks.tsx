@@ -62,7 +62,12 @@ export function useAttacks() {
     .catch(err => {
       console.error(err);
     });
-    return res;
+    if(!res.success){
+      return null;
+    } else {
+      return res;
+    }
+   
   };
   return { postAttack, getAllAttacks };
 }
