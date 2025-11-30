@@ -48,6 +48,7 @@ const AttackHistory: React.FC = () => {
           } else return attack;
         }));
         setAttacks(Array.isArray(attacksWithPics) ? attacksWithPics : []);
+        console.log(attacks)
       } catch (err) {
         console.error(err);
         setError('Fehler beim Laden der Angriffe.');

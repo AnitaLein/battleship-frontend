@@ -36,9 +36,14 @@ function LoginContent() {
     setError(null);
 
     const res = await login(username, password);
-
+    console.log('Login', res)
     try {
-      sessionStorage.setItem('id', res);
+      if (res){
+        sessionStorage.setItem('id', res);
+      } else {
+        setError('Falscher Anmeldename oder Passwort.')
+      }
+      
     } catch (err) {
       console.error('Failed to save session storage', err);
     }
