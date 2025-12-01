@@ -48,6 +48,7 @@ const AttackHistory: React.FC = () => {
         const attacksWithPics = await Promise.all(data.map(async (attack : any) => {
         if (attack.isHit) {
             const attackPic = await loadAttackPicture(userId, attack.id);
+            console.log('bild',attackPic)
             return { ...attack, attackPic };
           } else return attack;
         }));
@@ -165,7 +166,6 @@ useEffect(() => {
             {att.attackPic?.url ? (
               <img
                 src={att.attackPic.url}
-                alt="Angriffsbild"
                 className="w-15 h-15 rounded-full border-2 border-white/50 object-cover cursor-pointer transform scale-x-[-1] "
                 onClick={() => setModalImg(att.attackPic.url)}
               />
