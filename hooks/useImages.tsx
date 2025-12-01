@@ -55,8 +55,12 @@ export function useImages() {
       const res = await fetch(`${baseUrl}/attackPicture/${attackId}`, {
         headers: { userId },
       });
+      console.log(res)
       if (!res.ok) throw new Error('Fehler beim Laden des Angriffsbildes');
-      return await res.json();
+      else {
+        return await res.json();
+      }
+
     } catch (err) {
       console.error(err);
     }
