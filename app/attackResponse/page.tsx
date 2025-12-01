@@ -149,7 +149,12 @@ export default function AttackResultPage() {
             onClick={async () => {
               const userId = sessionStorage.getItem('id');
               if (userId && attackId) {
-                await uploadAttackPicture(userId, attackId);
+                if(imgSrc){
+                  await uploadAttackPicture(userId, attackId);
+                }
+                else {
+                   <p className="mt-4 text-red-400 text-center"> Schick ein Foto mit. </p>
+                }
               }
               router.push('/main');
             }}
