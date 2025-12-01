@@ -166,7 +166,7 @@ useEffect(() => {
               <img
                 src={att.attackPic.url}
                 alt="Angriffsbild"
-                className="w-15 h-15 rounded-full border-2 border-white/50 object-cover cursor-pointer"
+                className="w-15 h-15 rounded-full border-2 border-white/50 object-cover cursor-pointer transform scale-x-[-1] "
                 onClick={() => setModalImg(att.attackPic.url)}
               />
             ) : (
