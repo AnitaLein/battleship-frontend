@@ -57,9 +57,7 @@ export function useImages() {
       });
       console.log(res)
       if (!res.ok) throw new Error('Fehler beim Laden des Angriffsbildes');
-      else {
-        return await res.json();
-      }
+      return await res.json();
 
     } catch (err) {
       console.error(err);
