@@ -204,7 +204,7 @@ useEffect(() => {
   >
     <img
       src={modalImg}
-      className="max-w-[100%] max-h-[100%] rounded-xl shadow-xl"
+      className="max-w-[100%] max-h-[100%] rounded-xl shadow-xl transform scale-x-[-1]"
       alt="Preview"
     />
   </div>
