@@ -151,12 +151,13 @@ export default function AttackResultPage() {
               if (userId && attackId) {
                 if(imgSrc){
                   await uploadAttackPicture(userId, attackId);
+                  router.push('/main');
                 }
                 else {
                    <p className="mt-4 text-red-400 text-center"> Schick ein Foto mit. </p>
                 }
               }
-              router.push('/main');
+              
             }}
             className="mt-3 bg-blue-500 text-white py-2 px-4 rounded-lg"
           >
