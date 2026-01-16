@@ -44,9 +44,8 @@ function LoginContent() {
 
       if (checkIfTeamExists) {
         const today = new Date();
-        const currentMonthNumber = today.getMonth() + 1;
 
-        router.push(currentMonthNumber !== 12 ? 'prepare' : '/main');
+        router.push( '/main');
       } else {
         router.push('/createTeam');
       }
